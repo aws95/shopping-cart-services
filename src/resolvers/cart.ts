@@ -12,12 +12,12 @@ export default class ProductResolver {
   ) {}
 
   @Query(() => [Cart])
-  async carts() {
+  async getCarts() {
     return this.cartService.getAllCarts();
   }
 
   @Query(() => Cart)
-  async cartByID(@Arg("id") id: string, @Ctx() ctx: any) {
+  async getCartByID(@Arg("id") id: string, @Ctx() ctx: any) {
     return this.cartService.getCartById(id);
   }
 

@@ -38,8 +38,8 @@ type Product {
 }
 
 type Query {
-  cartByID(id: String): Cart
-  carts: [Cart]
+  getCartByID(id: String): Cart
+  getCarts: [Cart]
   getProduct(id: String, sku: String): Product
   getProducts: [Product]
 }

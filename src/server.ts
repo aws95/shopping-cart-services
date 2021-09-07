@@ -7,6 +7,7 @@ import {
   MongoInitializer,
   ApolloInitializer,
   PushDemoData,
+  RedisInitializer,
   DI,
 } from "@initializers";
 import { ApolloSchema } from "@schemas";
@@ -22,12 +23,19 @@ const startServer = async () => {
   app.use(cors());
   app.use(cookieParser());
 
+  const REDIS_PORT = parseInt(process.env.REDIS_PORT || "6379");
+  const REDIS_HOST = process.env.REDIS_HOST || "localhost";
+
+  const redis = await RedisInitializer(REDIS_PORT, REDIS_HOST);
+  await redis.flushall();
+
   const mongoConnection = await MongoInitializer();
 
   const models = [productModel, cartModel];
   const dependencyInjection = DI({ Container, models });
 
-  const apolloServer = await ApolloInitializer();
+  const apolloServer = await ApolloInitializer(REDIS_PORT, REDIS_HOST);
+
   await apolloServer.start();
   apolloServer.applyMiddleware({ app });
 
@@ -51,6 +59,13 @@ const startServer = async () => {
   app.get("/test-playground", expressPlayground({ endpoint: "/graphql" }));
 
   const PORT = process.env.PORT;
+
+  app.use("/", (req, res) => {
+    res.send(
+      `Welcome to GraphQL server. Use GraphQL endpoint at http://localhost:${PORT}/test-playground`
+    );
+  });
+
   app.listen(PORT, () => {
     console.log(
       colors.blue(`[App-Server] Server is running on http://localhost:${PORT}`)

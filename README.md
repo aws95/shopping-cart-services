@@ -1,0 +1,1 @@
+"cluster": "pm2 start processes.js --attach --watch"
