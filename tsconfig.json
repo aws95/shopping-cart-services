@@ -39,7 +39,8 @@
       "@interfaces": ["src/interfaces/index.ts"],
       "@types": ["src/types/index.ts"],
       "@services": ["src/services/index.ts"],
-      "@resolvers": ["src/resolvers/index.ts"]
+      "@resolvers": ["src/resolvers/index.ts"],
+      "@sample": ["products-sample-data.ts"]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like `./node_modules/@types`. */

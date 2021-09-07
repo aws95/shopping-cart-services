@@ -7,15 +7,17 @@ import { Inject, Service } from "typedi";
 @Service()
 @Resolver()
 export default class ProductResolver {
-  constructor(@Inject("ProductService") private readonly productService: ProductService) {}
+  constructor(
+    @Inject("ProductService") private readonly productService: ProductService
+  ) {}
 
   @Query(() => [Product])
-  async products() {
+  async getProducts() {
     return this.productService.getAllProducts();
   }
 
   @Query(() => Product)
-  async productByID(@Arg("id") id: string, @Ctx() ctx: any) {
-    return this.productService.getProductById(id);
+  async getProduct(@Arg("id") id: string = "", @Arg("sku") sku: string = "") {
+    return this.productService.getProduct(id, sku);
   }
 }

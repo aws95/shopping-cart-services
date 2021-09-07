@@ -13,7 +13,7 @@ export default class ProductInputs implements Partial<Product> {
   description!: String;
 
   @Field()
-  stock!: number;
+  qty!: number;
 
   @Field()
   price!: number;

@@ -19,9 +19,13 @@ export class Product {
   @Property()
   description!: String;
 
+  @Field()
+  @Property()
+  image!: String;
+
   @Field((_type) => Int)
   @Property()
-  stock!: number;
+  qty!: number;
 
   @Field((_type) => Int)
   @Property()

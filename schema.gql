@@ -20,23 +20,26 @@ type Item {
 
 type Mutation {
   addProductToCart(id: String, product_id: String): Cart
+  createEmptyCart: Cart
+  decrementProductFromCart(id: String, product_id: String): Cart
   deleteProductFromCart(id: String, product_id: String): Cart
-  emptyCart: Cart
+  emptyCart(id: String): Cart
 }
 
 """The Product model"""
 type Product {
   description: String
   id: ID
+  image: String
   name: String
   price: Int
+  qty: Int
   sku: String
-  stock: Int
 }
 
 type Query {
   cartByID(id: String): Cart
   carts: [Cart]
-  productByID(id: String): Product
-  products: [Product]
+  getProduct(id: String, sku: String): Product
+  getProducts: [Product]
 }

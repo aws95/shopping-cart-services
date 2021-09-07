@@ -1,27 +1,40 @@
-import { Product, Cart, CartModel, ProductModel, ItemModel } from "@models";
+import {
+  Product,
+  Cart,
+  CartModel,
+  ProductModel,
+  ItemModel,
+  Item,
+} from "@models";
+import sample from "@sample";
 
 const pushDemoData = async () => {
-  const product = new ProductModel({
-    id: "demo-id",
-    name: "demo-name",
-    sku: "demo-sku",
-    description: "demo-description",
-    stock: 1,
-    price: 100,
-  } as Product);
-  const products = await product.save();
-
-  const item = new ItemModel({
-    id: "demo-id",
-    item_sku: products.sku,
-    count: products.stock,
-  });
-
+  let items: Item[] = [];
+  let price: number = 0;
+  for await (const elt of sample) {
+    const product = new ProductModel({
+      id: elt.id,
+      name: elt.name,
+      sku: elt.sku,
+      description: elt.description,
+      qty: elt.qty,
+      price: elt.price,
+      image: elt.image,
+    } as Product);
+    const savedProduct = await product.save();
+    const item = new ItemModel({
+      id: savedProduct.id,
+      item_sku: savedProduct.sku,
+      count: savedProduct.qty,
+    } as Item);
+    price += product.price;
+    items.push(item);
+  }
   const cart = new CartModel({
     id: "demo-id",
-    items: [item],
-    total_quantity: 1,
-    total_price: 100,
+    items: items,
+    total_quantity: items.length,
+    total_price: parseFloat(price.toFixed(2)),
   } as Cart);
   const carts = await cart.save();
 

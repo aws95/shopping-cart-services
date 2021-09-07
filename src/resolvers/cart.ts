@@ -22,7 +22,7 @@ export default class ProductResolver {
   }
 
   @Mutation(() => Cart)
-  async emptyCart() {
+  async createEmptyCart() {
     return this.cartService.createEmptyCart();
   }
 
@@ -42,5 +42,19 @@ export default class ProductResolver {
     @Ctx() ctx: any
   ) {
     return this.cartService.deleteProductFromCart(id, product_id);
+  }
+
+  @Mutation(() => Cart)
+  async decrementProductFromCart(
+    @Arg("id") id: string,
+    @Arg("product_id") product_id: string,
+    @Ctx() ctx: any
+  ) {
+    return this.cartService.decrementProductFromCart(id, product_id);
+  }
+
+  @Mutation(() => Cart)
+  async emptyCart(@Arg("id") id: string, @Ctx() ctx: any) {
+    return this.cartService.emptyCart(id);
   }
 }

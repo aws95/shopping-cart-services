@@ -31,6 +31,7 @@ const startServer = async () => {
   await apolloServer.start();
   apolloServer.applyMiddleware({ app });
 
+  //Uncomment this bloc to upload demo data to database
   /*const pushData = await PushDemoData();
   console.log(
     colors.yellow(`[App-Server] Are demo data pushed to database ? ${pushData}`)
