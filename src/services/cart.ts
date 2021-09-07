@@ -9,12 +9,32 @@ export default class CartService {
     @Inject("PRODUCT") private readonly product: typeof ProductModel
   ) {}
 
+  /**
+   * Get all carts in database
+   * @typeParam None
+   * @param None
+   * @returns an array of cart objects
+   */
   async getAllCarts() {
     return this.cart.find();
   }
+
+  /**
+   * Get a cart from database by it's id from database
+   * @typeParam string
+   * @param id
+   * @returns an array that contains 1 cart object if it exists
+   */
   async getCartById(id: string): Promise<Cart | null> {
     return this.cart.findOne({ _id: id });
   }
+
+  /**
+   * Create an empty cart in database
+   * @typeParam None
+   * @param None
+   * @returns an array with 1 empty cart object
+   */
   async createEmptyCart(): Promise<Cart | null> {
     const emptyCart = await this.cart.create({
       id: "",
@@ -25,6 +45,15 @@ export default class CartService {
     const res = await emptyCart.save();
     return res;
   }
+
+  /**
+   * Add 1 product in existing cart in database and increment that product count by 1 if it already exists in database
+   * @typeParam string
+   * @param id
+   * @typeParam string
+   * @param product_id
+   * @returns an array that contains 1 cart object
+   */
   async addProductToCart(id: string, product_id: string): Promise<Cart | null> {
     const product = await this.product.findOne({ _id: product_id });
     const found = await this.cart.find({ _id: id });
@@ -65,6 +94,15 @@ export default class CartService {
 
     return cart;
   }
+
+  /**
+   * Deletes 1 product in database
+   * @typeParam string
+   * @param id
+   * @typeParam string
+   * @param product_id
+   * @returns an array that contains 1 cart object
+   */
   async deleteProductFromCart(
     id: string,
     product_id: string
@@ -88,6 +126,15 @@ export default class CartService {
     );
     return cart;
   }
+
+ /**
+   * Decrement product count in cart by 1
+   * @typeParam string
+   * @param id
+   * @typeParam string
+   * @param product_id
+   * @returns an array that contains 1 cart object
+   */
   async decrementProductFromCart(
     id: string,
     product_id: string
@@ -118,6 +165,13 @@ export default class CartService {
     );
     return cart;
   }
+
+  /**
+   * Empty out a cart 
+   * @typeParam string
+   * @param id
+   * @returns an array with 1 empty cart object
+   */
   async emptyCart(id: string): Promise<Cart | null> {
     const cart = await this.cart.findOneAndUpdate(
       { _id: id },
